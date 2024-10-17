@@ -1,5 +1,7 @@
 const mongoose=require('mongoose')
 
+mongoose.connect("mongodb://127.0.0.1:27017/scatch")
+
 const userSchema=mongoose.Schema({
     fullname:{
         type:String,
@@ -8,7 +10,10 @@ const userSchema=mongoose.Schema({
     },
     email:String,
     password:String,
-    cart:[],
+    cart:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"product"
+    }],
     isAdmin:Boolean,
     orders:[],
     contact:Number,

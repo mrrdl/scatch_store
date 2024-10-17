@@ -1,18 +1,13 @@
 const mongoose=require('mongoose')
 
 const productSchema=mongoose.Schema({
-    image:String,
-    name:String,
-    price:Number,
-    discount:{
-        type:Number,
-        default:0
-    },
-    bgcolor:{
-        type:String,
-    },
-    panelcolor:String,
-    textcolor:String
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    discount: { type: Number },
+    bgcolor: { type: String },
+    panelcolor: { type: String },
+    textcolor: { type: String },
+    image: { type: Buffer },
 })
 
-module.exports=mongoose.model("post",productSchema)
+module.exports=mongoose.model("product",productSchema)

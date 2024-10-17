@@ -9,13 +9,13 @@ const ownerSchema=mongoose.Schema({
     email:String,
     password:String,
     isAdmin:Boolean,
-    products:{
-        type:Array,
-        default:[]
-    },
+    products:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'product'
+    }],
     contact:Number,
     gstin:Number,
     picture:String
 })
 
-module.exports=mongoose.model("user",ownerSchema)
+module.exports=mongoose.model("owner",ownerSchema)
