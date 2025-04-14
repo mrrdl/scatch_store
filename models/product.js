@@ -8,6 +8,7 @@ const productSchema=mongoose.Schema({
     panelcolor: { type: String },
     textcolor: { type: String },
     image: { type: Buffer },
+    availability:{type:Boolean,default:true}
 })
 
 module.exports=mongoose.model("product",productSchema)
