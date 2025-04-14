@@ -17,7 +17,7 @@ router.post('/createuser',async (req,res) => {
     if(owner){
         bcrypt.compare(password,owner.password,(err,result) => {
             if(result){
-                let token=generateToken(owner)
+                const token=generateToken(owner)
                 res.cookie("token",token)
                 req.flash("login","Login Success")
                 return res.redirect('/owners/admin')
@@ -38,22 +38,50 @@ router.post('/createuser',async (req,res) => {
                 })
                 let token=generateToken(createOwner)
                 res.cookie("token",token)
+
+                req.flash("Success","Owner Created Successfully")
+                res.redirect('/owners/admin')
             })
         })
-        req.flash("Success","Owner Created Successfully")
-        res.redirect('/owners/admin')
     }
 })
 
-router.get("/admin",async (req,res) => {
-    const token=req.cookies.token
-    const decoded=jwt.verify(token,process.env.JWT_KEY)
-    let user=await ownerModel.findOne({ _id:decoded._id})
-    let success=req.flash("success")
-    let login=req.flash("login")
-    let falseLog=req.flash("false")
-    let Success=req.flash("Success")
-    res.render("createProduct",{success,user,login,Success,falseLog})
-})
+router.get("/admin", async (req, res) => {
+    try {
+      const token = req.cookies.token;
+  
+      if (!token) {
+        req.flash("false", "You must be logged in to access this page.");
+        return res.redirect("/owners/create");
+      }
+  
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+  
+      const user = await ownerModel.findOne({ _id: decoded._id });
+  
+      if (!user) {
+        req.flash("false", "User not found.");
+        return res.redirect("/owners/create");
+      }
+  
+      const success = req.flash("success");
+      const login = req.flash("login");
+      const falseLog = req.flash("false");
+      const Success = req.flash("Success");
+  
+      res.render("createProduct", {
+        success,
+        user,
+        login,
+        Success,
+        falseLog
+      });
+  
+    } catch (err) {
+      console.error("JWT Error:", err.message);
+      req.flash("false", "Session expired or invalid token.");
+      return res.redirect("/owners/create");
+    }
+});
 
 module.exports=router
