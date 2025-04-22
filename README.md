@@ -1,6 +1,6 @@
 ---
 
-# 👜 Scatch Store
+👜 Scatch Store
 
 **Scatch Store** is a premium bag e-commerce platform built with Node.js, Express, MongoDB, and EJS. It offers a seamless shopping experience with features like user authentication, product browsing, cart management, and order processing.
 
